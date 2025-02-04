@@ -1,0 +1,87 @@
+#include<iostream>
+using namespace std;
+struct node{
+    int data;
+    struct node* next;
+}
+struct Stack{
+    struct node* top;
+}
+struct node* createNode(int value){
+    struct node* node1=(struct node*)malloc(sizeof(struct node));
+    node1->data=value;
+    node1->next=NULL;
+    retrun node1;
+}
+struct Stack* createStack(){
+    struct Stack* stack = (struct Stack*)malloc(sizeof(struct St#include<iostream>
+using namespace std;
+struct node{
+    int data;
+    struct node* next;
+};
+struct Stack{
+    struct node* top;
+};
+struct node* createNode(int value){
+    struct node* node1=(struct node*)malloc(sizeof(struct node));
+    node1->data=value;
+    node1->next=NULL;
+    return node1;
+}
+struct Stack* createStack(){
+    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
+    stack->top=NULL;
+    return stack;
+}
+int isEmpty(struct Stack* stack){
+    return stack->top==NULL;
+}
+void push(struct Stack* stack,int value){
+    struct node* node1=createNode(value);
+    node1->next=stack->top;
+    stack->top=node1;
+    cout<<"Value inserted in the node "<<value<<endl;
+    
+}
+int pop(struct Stack* stack){
+    struct node* temp=stack->top;
+    int popp=temp->data;
+    stack->top=stack->top->next;
+    free(temp);
+    return popp;
+}
+void display(struct Stack* stack){
+    struct node* temp=stack->top;
+    while(temp!=NULL){
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }
+    cout<<endl;
+}
+int peek(struct Stack* stack){
+    if(isEmpty(stack)){
+        cout<<"Stack is Empty";
+    }
+    return stack->top->data;
+}
+int main(){
+   struct Stack* stack=createStack();
+   push(stack,10);
+   push(stack,20);
+   push(stack,30);
+   push(stack,40);
+   cout<<"The elements in the stack are: ";
+   display(stack);
+   cout<<"The value popped from the stack is: "<<pop(stack)<<endl;
+   cout<<"The top element is: "<<peek(stack)<<endl;
+   cout<<"The value popped from the stack is: "<<pop(stack)<<endl;
+    cout<<"The elements in the stack are: ";
+   display(stack);
+}ack));
+    stack->top=NULL;
+    return stack;
+}
+int main(){
+    
+}

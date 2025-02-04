@@ -1,0 +1,65 @@
+#include<iostream>
+using namespace std;
+
+struct node{
+    int data;
+    struct node* next;
+};
+struct node* createNode(int value)
+{
+    struct node* node1 = (struct node*)malloc(sizeof(struct node));
+    node1-> data=value;
+    node1-> next=NULL;
+    return node1;
+}
+struct node* reversed(struct node* head){
+    struct node* temp=head;
+    struct node* prev=NULL;
+    struct node* next=NULL;
+    while(temp!=NULL){
+        next=temp->next;
+        temp->next=prev;
+        prev=temp;
+        temp=next;
+    }
+    return prev;
+}
+void middle(struct node* head){
+    struct node* temp=head;
+    int count=1;
+    while(temp->next!=NULL){
+        count++;
+        temp=temp->next;
+    }
+    temp=head;
+    int n=count/2;
+    for(int i=1;i<=n;i++){
+        if(i%2==0)
+            temp=temp->next;
+    }
+    cout<<temp->data;
+}
+void printList(struct node* head)
+{
+    struct node* current = head;
+    while(current!=NULL)
+    {
+        printf("%d " , current->data);
+        current=current->next;
+    }
+}
+int main(){
+    struct node* head;
+    head=createNode(5);
+    head->next=createNode(6);
+    head->next->next=createNode(8);
+    head->next->next->next=createNode(7);
+    printList(head);
+    cout<<endl;
+    head=reversed(head);
+    cout<<"the reversed linked list is: "<<endl;
+    printList(head);
+    cout<<endl;
+    cout<<"The middle element is "<<endl;
+    middle(head);
+}

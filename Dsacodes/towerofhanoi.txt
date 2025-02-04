@@ -1,0 +1,20 @@
+#include<iostream>
+using namespace std;
+
+void TOH(int num, char source, char auxiliary, char destination) {
+    if(num == 0) {
+        return;
+    }
+    TOH(num - 1, source, destination, auxiliary);
+    cout << "Move a disk from source " << source << " to destination " << destination << endl;
+    TOH(num - 1, auxiliary, source, destination);
+}
+
+int main() {
+    int num;
+    cout << "Enter number of disks: ";
+    cin >> num;
+    TOH(num, 'S', 'A', 'D');
+    
+    return 0;
+}

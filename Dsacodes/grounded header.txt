@@ -1,0 +1,113 @@
+#include<iostream>
+using namespace std;
+
+struct node{
+    int data;
+    struct node* next;
+};
+struct node* createNode(int value){
+    struct node* node1=(struct node*)malloc(sizeof(struct node));
+    node1->data=value;
+    node1->next=NULL;
+    return node1;
+};
+struct node* insertAtBeg(struct node* header,int value){
+    struct node* node1=createNode(value);
+    node1->next=header->next;
+    header->next=node1;
+    header->data+=1;
+    return header;
+    
+};
+void printList(struct node* header)
+{
+    struct node* current = header->next;
+    while(current!=NULL)
+    {
+        cout<< current->data<<" ";
+        current=current->next;
+    }
+    cout<<endl;
+    cout<<"Number of nodes are: "<<header->data;
+}
+struct node* insertatLast(struct node* header,int value){
+    struct node* node1=createNode(value);
+    struct node* current=header;
+    while(current->next!=NULL){
+        current=current->next;
+    }
+    current->next=node1;
+    header->data+=1;
+    return header;
+};
+struct node* insertatPos(struct node* header,int pos,int value){
+    struct node* node1=createNode(value);
+    struct node* temp=header;
+    for(int i=1;i<pos;i++){
+        temp=temp->next;
+    }
+    node1->next=temp->next;
+    temp->next=node1;
+    header->data+=1;
+    return header;
+};
+struct node* deleteatBeg(struct node* header){
+    struct node* temp=header->next;
+    header->next=temp->next;
+    free(temp);
+    header->data-=1;
+    return header;
+};
+struct node* deleteatPos(struct node* header,int pos){
+    struct node* current=header;
+    struct node*prev=NULL;
+    for(int i=1;i<pos;i++){
+        prev = current;
+        current=current->next;
+    }
+    prev->next=current->next;
+    free(current);
+    header->data-=1;
+    return header;
+}
+struct node* deleteatEnd(struct node* header){
+    struct node* current=header;
+    struct node* prev=NULL;
+    while(current->next!=NULL){
+        prev=current;
+        current=current->next;
+    }
+    prev->next=NULL;
+    free(current);
+    header->data-=1;
+    return header;
+    
+}
+
+int main(){
+ struct node* header=(struct node*)malloc(sizeof(struct node));
+ header->data=0;
+ header->next=NULL;
+ header=insertAtBeg(header,10);
+ header=insertAtBeg(header,20);
+ header=insertAtBeg(header,30);
+ printList(header);
+ cout<<endl;
+ header=insertatLast(header,20);
+ printList(header);
+ cout<<endl;
+ header=insertatPos(header,3,60);
+ printList(header);
+ cout<<endl;
+ deleteatBeg(header);
+ printList(header);
+ cout<<endl;
+ deleteatPos(header,3);
+ printList(header);
+ cout<<endl;
+ deleteatEnd(header);
+ printList(header);
+ 
+ 
+ return 0;
+}

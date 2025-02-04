@@ -1,0 +1,56 @@
+#include<iostream>
+using namespace std;
+
+#define MAX 100
+struct Stack{
+    int top;
+    int arr[MAX];
+    
+};
+void initstack(struct Stack* stack){
+    stack->top=-1;
+    
+}
+int isEmpty(struct Stack* stack){
+    return stack->top==-1;
+}
+int isFull(struct Stack* stack){
+    return stack->top==MAX-1;
+}
+void push(struct Stack* stack,int value){
+    if(isFull(stack)){
+        cout<<"Stack is Full"<<endl;
+    }
+    stack->arr[++stack->top]=value;
+    cout<<"Element is inserted  in stack "<<value<<endl;
+    
+}
+int pop(struct Stack* stack){
+    if(isEmpty(stack)){
+        cout<<"Stack is empty and cannot delete an element";
+        return -1;
+    }
+    return stack->arr[stack->top--];
+}
+int peek(struct Stack* stack){
+    if(isEmpty(stack)){
+        cout<<"Stack is empty";
+        return -1;
+    }
+    return stack->arr[stack->top];
+}
+int main(){
+    struct Stack stack;
+    initstack(&stack);
+    push(&stack,10);
+    push(&stack,20);
+    push(&stack,30);
+    push(&stack,40);
+    cout<<"Element deleted is "<<pop(&stack);
+    pop(&stack);
+    cout<<"Element deleted is "<<pop(&stack)<<endl;
+    cout<<"Element deleted is "<<pop(&stack)<<endl;
+    cout<<"Element deleted is "<<pop(&stack)<<endl;
+    cout<<"Element deleted is "<<pop(&stack);
+    
+}

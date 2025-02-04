@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <math.h>
+#define TABLE_SIZE 10
+
+
+***************************************************
+
+// Hash function using mid-square method
+int midSquareHash(int key) {
+    int squared = key * key;  // Square the key
+    int middle = (squared / 10) % 100;  // Extract middle two digits
+    return middle % TABLE_SIZE;  // Map to table size
+}
+
+**************************************************
+
+// Main function to demonstrate mid-square hashing
+int main() {
+    int keys[] = {12, 23, 34, 45, 56, 67};
+    int n = sizeof(keys) / sizeof(keys[0]);
+
+    printf("Key\tSquared\tHash\n");
+    for (int i = 0; i < n; i++) {
+        int key = keys[i];
+        int hash = midSquareHash(key);
+        printf("%d\t%d\t%d\n", key, squared, hash);
+    }
+
+    return 0;
+}

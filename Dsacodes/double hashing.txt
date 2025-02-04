@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define TABLE_SIZE 10
+
+// Primary hash function
+int hash1(int key) {
+    return key % TABLE_SIZE;
+}
+
+// Secondary hash function
+int hash2(int key) {
+    return 7 - (key % 7); // Using 7 (a prime smaller than TABLE_SIZE) to avoid clustering
+}
+
+// Function to insert a key using double hashing
+void insert(int table[], int key) {
+    int index = hash1(key);
+    int i = 0;
+
+    // Double hashing for collision resolution
+    while (table[(index + i * hash2(key)) % TABLE_SIZE] != -1) {
+        i++;
+        if (i >= TABLE_SIZE) {
+            printf("Hash table is full, cannot insert key %d\n", key);
+            return;
+        }
+    }
+
+    index = (index + i * hash2(key)) % TABLE_SIZE;
+    table[index] = key;
+    printf("Key %d inserted at index %d\n", key, index);
+}
+
+// Function to search for a key using double hashing
+bool search(int table[], int key) {
+    int index = hash1(key);
+    int i = 0;
+
+    while (table[(index + i * hash2(key)) % TABLE_SIZE] != -1) {
+        if (table[(index + i * hash2(key)) % TABLE_SIZE] == key) {
+            return true; // Key found
+        }
+        i++;
+        if (i >= TABLE_SIZE) {
+            break; // Full loop, key not found
+        }
+    }
+    return false; // Key not found
+}
+
+// Function to display the hash table
+void display(int table[]) {
+    printf("Hash Table:\n");
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        if (table[i] != -1) {
+            printf("Index %d: %d\n", i, table[i]);
+        } else {
+            printf("Index %d: ~\n", i);
+        }
+    }
+}
+
+int main() {
+    int table[TABLE_SIZE];
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        table[i] = -1; // Initialize table with -1 (indicating empty slots)
+    }
+
+    // Insert keys into the hash table
+    insert(table, 23);
+    insert(table, 43);
+    insert(table, 13);
+    insert(table, 27);
+    insert(table, 33);
+    insert(table, 37);
+
+    // Display the hash table
+    display(table);
+
+    // Search for keys
+    int keyToSearch = 43;
+    if (search(table, keyToSearch)) {
+        printf("Key %d found in the hash table.\n", keyToSearch);
+    } else {
+        printf("Key %d not found in the hash table.\n", keyToSearch);
+    }
+
+    return 0;
+}

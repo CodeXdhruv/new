@@ -1,0 +1,100 @@
+#include <stdio.h>
+#include <limits.h>
+
+#define MAX 100
+
+// Structure to store the priority queue
+typedef struct {
+    int data[MAX]; // Array to store the elements
+    int priority[MAX]; // Array to store the priority of elements
+    int size; // Size of the priority queue
+} PriorityQueue;
+
+// Function to initialize the priority queue
+void initQueue(PriorityQueue *pq) {
+    pq->size = 0;
+}
+
+// Function to check if the priority queue is empty
+int isEmpty(PriorityQueue *pq) {
+    return pq->size == 0;
+}
+
+// Function to check if the priority queue is full
+int isFull(PriorityQueue *pq) {
+    return pq->size == MAX;
+}
+
+// Function to insert an element into the priority queue
+void enqueue(PriorityQueue *pq, int value, int priority) {
+    if (isFull(pq)) {
+        printf("Priority Queue is full\n");
+        return;
+    }
+    
+    pq->data[pq->size] = value;
+    pq->priority[pq->size] = priority;
+    pq->size++;
+}
+
+// Function to find the index of the element with the highest priority
+int getHighestPriorityIndex(PriorityQueue *pq) {
+    int maxPriority = INT_MIN;
+    int index = -1;
+    for (int i = 0; i < pq->size; i++) {
+        if (pq->priority[i] > maxPriority) {
+            maxPriority = pq->priority[i];
+            index = i;
+        }
+    }    
+    return index;
+}
+// Function to remove the element with the highest priority
+int dequeue(PriorityQueue *pq) {
+    if (isEmpty(pq)) {
+        printf("Priority Queue is empty\n");
+        return -1;
+    }
+    int index = getHighestPriorityIndex(pq);
+    int value = pq->data[index];
+   
+    // Shift elements to maintain the array structure 
+    for (int i = index; i < pq->size - 1; i++) {
+        pq->data[i] = pq->data[i + 1];
+        pq->priority[i] = pq->priority[i + 1];
+    }
+
+    pq->size--;
+    return value;
+}
+
+// Function to display the elements of the priority queue
+void display(PriorityQueue *pq) {
+    if (isEmpty(pq)) {
+        printf("Priority Queue is empty\n");
+        return;
+    }
+
+    printf("Elements in the Priority Queue:\n");
+    for (int i = 0; i < pq->size; i++) {
+        printf("Value: %d, Priority: %d\n", pq->data[i], pq->priority[i]);
+    }
+}
+
+int main() {
+    PriorityQueue pq;
+    initQueue(&pq);
+
+    enqueue(&pq, 10, 3);
+    enqueue(&pq, 20, 4);
+    enqueue(&pq, 30, 2);
+    enqueue(&pq, 40, 5);
+
+    display(&pq);
+
+    printf("\nDequeued element: %d\n", dequeue(&pq));
+    
+    display(&pq);
+
+    return 0;
+}

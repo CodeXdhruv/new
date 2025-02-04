@@ -1,0 +1,58 @@
+#include<iostream>
+using namespace std;
+
+// long long  power1(int n,int power){
+//     if(power==0){
+//         return 1;
+//     }
+//     return n*power1(n,power-1);
+// }
+void print(int num){
+    if(num==0){
+        return;
+    }
+    print(num-1);
+    cout<<num<<" ";
+}
+int sum(int n){
+    if(n==0){
+        return 0;
+    }
+    return n+sum(n-1);
+}
+string reverse(string str){
+    if(){
+        return;
+        
+    }
+    return str[n]+reverse(str[n-1]) 
+}
+void binaryNum(int n){
+    if(n==0){
+        return;
+    }
+    else if(n==1){
+        cout<<1;
+    }
+    else{
+        binaryNum(n/2);
+        cout<<n%2;
+    }
+}
+int sumofDigits(int n){
+    if(n==0){
+        return 0;
+    }
+    return n%10+sumofDigits(n/10);
+    
+}
+int main(){
+    int n;
+    cin>>n;
+    // int power;
+    // cin>>power;
+    // cout<<power1(n,power);
+    // print(n);
+    // cout<<sum(n);
+    cout<<sumofDigits(n);
+}

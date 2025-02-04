@@ -1,0 +1,93 @@
+#include <stdio.h>
+
+#define MAX 100
+
+int heap[MAX];
+int heapSize = 0;
+
+// Function to insert an element into the min-heap
+void insert(int value) {
+    if (heapSize >= MAX) {
+        printf("Heap is full\n");
+        return;
+    }
+
+    // Insert the new element at the end of the heap
+    heap[heapSize] = value;
+    int current = heapSize;
+    heapSize++;
+
+    // Heapify the element upwards to maintain min-heap property
+    while (current > 0 && heap[(current - 1) / 2] > heap[current]) {
+        // Swap the current element with its parent
+        int temp = heap[(current - 1) / 2];
+        heap[(current - 1) / 2] = heap[current];
+        heap[current] = temp;
+
+        // Move up to the parent
+        current = (current - 1) / 2;
+    }
+}
+
+// Function to remove and return the minimum element from the min-heap
+int deleteMin() {
+    if (heapSize <= 0) {
+        printf("Heap is empty\n");
+        return -1;
+    }
+
+    int min = heap[0];
+    heap[0] = heap[heapSize - 1];
+    heapSize--;
+
+    int current = 0;
+    // Heapify the element downwards to maintain min-heap property
+    while (current * 2 + 1 < heapSize) {
+        int left = current * 2 + 1;
+        int right = current * 2 + 2;
+        int minChild = left;
+
+        if (right < heapSize && heap[right] < heap[left]) {
+            minChild = right;
+        }
+
+        if (heap[current] <= heap[minChild]) {
+            break;
+        }
+
+        // Swap the current element with the smaller child
+        int temp = heap[current];
+        heap[current] = heap[minChild];
+        heap[minChild] = temp;
+
+        current = minChild;
+    }
+
+    return min;
+}
+
+// Function to display the elements of the min-heap
+void displayHeap() {
+    for (int i = 0; i < heapSize; i++) {
+        printf("%d ", heap[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    insert(20);
+    insert(15);
+    insert(30);
+    insert(5);
+    insert(10);
+
+    printf("Min-Heap elements: ");
+    displayHeap();
+
+    printf("Deleted min element: %d\n", deleteMin());
+
+    printf("Heap after deletion: ");
+    displayHeap();
+
+    return 0;
+}

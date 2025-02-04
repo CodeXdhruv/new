@@ -1,0 +1,98 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define a node structure for the priority queue
+struct Node {
+    int data;
+    int priority;
+    struct Node* next;
+};
+
+// Function to create a new node
+struct Node* createNode(int data, int priority) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->priority = priority;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the priority queue
+void enqueue(struct Node** head, int data, int priority) {
+    struct Node* newNode = createNode(data, priority);
+
+    // Special case: the head is NULL or the new node has higher priority than the head
+    if (*head == NULL || (*head)->priority < priority) {
+        newNode->next = *head;
+        *head = newNode;
+    } else {
+        // Traverse the list and find the appropriate position to insert the new node
+        struct Node* temp = *head;
+        while (temp->next != NULL && temp->next->priority <= priority) {
+            temp = temp->next;
+        }
+        newNode->next = temp->next;
+        temp->next = newNode;
+    }
+}
+
+// Function to remove the highest priority node from the priority queue
+void dequeue(struct Node** head) {
+    if (*head == NULL) {
+        printf("Priority Queue is empty\n");
+        return;
+    }
+    
+    struct Node* temp = *head;
+    *head = (*head)->next;
+    free(temp);
+}
+
+// Function to check if the priority queue is empty
+int isEmpty(struct Node* head) {
+    return head == NULL;
+}
+
+// Function to get the node with the highest priority
+int peek(struct Node* head) {
+    if (head == NULL) {
+        printf("Priority Queue is empty\n");
+        return -1;
+    }
+    return head->data;
+}
+
+// Function to display the elements of the priority queue
+void display(struct Node* head) {
+    if (head == NULL) {
+        printf("Priority Queue is empty\n");
+        return;
+    }
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("Data: %d, Priority: %d\n", temp->data, temp->priority);
+        temp = temp->next;
+    }
+}
+
+// Main function to test the priority queue
+int main() {
+    struct Node* pq = NULL;
+
+    // Insert elements into the priority queue
+    enqueue(&pq, 10, 2);
+    enqueue(&pq, 20, 1);
+    enqueue(&pq, 30, 3);
+    enqueue(&pq, 40, 0);
+
+    printf("Priority Queue:\n");
+    display(pq);
+
+    printf("\nTop element: %d\n", peek(pq));
+
+    printf("\nDequeueing the highest priority element...\n");
+    dequeue(&pq);
+    display(pq);
+
+    return 0;
+}

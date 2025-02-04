@@ -1,0 +1,127 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define TABLE_SIZE 10
+
+// Node structure for linked list
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Hash table structure
+typedef struct HashTable {
+    Node* buckets[TABLE_SIZE];
+} HashTable;
+
+// Function to create a new node
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Hash function
+int hashFunction(int key) {
+    return key % TABLE_SIZE;
+}
+
+// Initialize hash table
+void initializeHashTable(HashTable* table) {
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        table->buckets[i] = NULL;
+    }
+}
+
+// Insert into hash table
+void insert(HashTable* table, int data) {
+    int index = hashFunction(data);
+    Node* newNode = createNode(data);
+    
+    // Insert at the beginning of the linked list
+    newNode->next = table->buckets[index];
+    table->buckets[index] = newNode;
+}
+
+// Search for an element in the hash table
+int search(HashTable* table, int key) {
+    int index = hashFunction(key);
+    Node* temp = table->buckets[index];
+    
+    while (temp) {
+        if (temp->data == key) {
+            return 1; // Found
+        }
+        temp = temp->next;
+    }
+    return 0; // Not found
+}
+
+// Delete an element from the hash table
+void delete(HashTable* table, int key) {
+    int index = hashFunction(key);
+    Node* temp = table->buckets[index];
+    Node* prev = NULL;
+
+    while (temp) {
+        if (temp->data == key) {
+            if (prev) {
+                prev->next = temp->next;
+            } else {
+                table->buckets[index] = temp->next;
+            }
+            free(temp);
+            printf("Deleted %d from the hash table.\n", key);
+            return;
+        }
+        prev = temp;
+        temp = temp->next;
+    }
+    printf("Key %d not found in the hash table.\n", key);
+}
+
+// Display the hash table
+void displayHashTable(HashTable* table) {
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        printf("Bucket %d: ", i);
+        Node* temp = table->buckets[i];
+        while (temp) {
+            printf("%d -> ", temp->data);
+            temp = temp->next;
+        }
+        printf("NULL\n");
+    }
+}
+
+// Main function
+int main() {
+    HashTable table;
+    initializeHashTable(&table);
+
+    // Insert elements
+    insert(&table, 15);
+    insert(&table, 25);
+    insert(&table, 35);
+    insert(&table, 45);
+    insert(&table, 5);
+
+    // Display the hash table
+    printf("Hash table:\n");
+    displayHashTable(&table);
+
+    // Search for elements
+    printf("\nSearching for 25: %s\n", search(&table, 25) ? "Found" : "Not Found");
+    printf("Searching for 10: %s\n", search(&table, 10) ? "Found" : "Not Found");
+
+    // Delete an element
+    delete(&table, 25);
+    delete(&table, 10);
+
+    // Display after deletion
+    printf("\nHash table after deletion:\n");
+    displayHashTable(&table);
+
+    return 0;
+}

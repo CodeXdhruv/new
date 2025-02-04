@@ -1,0 +1,72 @@
+#include<iostream>
+using namespace std;
+#define MAX 100
+struct Queue{
+    int front;
+    int rear;
+    int arr[MAX];
+};
+void initQueue(struct Queue* queue){
+    queue->front=-1;
+    queue->rear=-1;
+}
+int isEmpty(struct Queue* queue){
+    return queue->front==1 || queue->front>queue->rear;
+}
+int isFull(struct Queue* queue){
+    return queue->rear==MAX-1;
+}
+void Enqueue(struct Queue* queue,int value){
+    if(isFull(queue)){
+        cout<<"The queue is full";
+        return;
+    }
+    if(queue->front==-1){
+        queue->front=0;
+    }
+    cout<<"The value inserted is "<<value;
+    queue->arr[++queue->rear]=value;
+}
+int Dequeue(struct Queue* queue){
+    if(isEmpty(queue)){
+        cout<<"Queue is empty no deletion allowed";
+    }
+    if(queue->front==queue->rear){
+        queue->rear=-1;
+        queue->front=-1;
+    }
+    return queue->arr[queue->front++];
+}
+void display(struct Queue* queue){
+    for(int i=queue->front;i<queue->rear;i++){
+        cout<<queue->arr[i]<<" ";
+    }
+}
+int peek(struct Queue* queue){
+    if(isEmpty(queue)){
+        cout<<"The queue is Empty";
+    }
+    return queue->arr[queue->front];
+}
+int main(){
+ struct Queue queue;
+ initQueue(&queue);
+ Enqueue(&queue,10);
+ cout<<endl;
+ Enqueue(&queue,20);
+ cout<<endl;
+ Enqueue(&queue,30);
+ cout<<endl;
+ Enqueue(&queue,40);
+ cout<<endl;
+ display(&queue);
+ cout<<endl;
+ cout<<"Front Element is: "<<peek(&queue);
+ cout<<endl;
+ Dequeue(&queue);
+ cout<<endl;
+ cout<<"Elements after dequeueing: ";
+ display(&queue);
+ //cout<<queue.front;
+ //cout<<queue.rear;
+}
